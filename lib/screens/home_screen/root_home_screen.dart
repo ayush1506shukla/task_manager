@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import the services package
 import 'package:task_manager/screens/home_screen/sub_screens/view_individual_task.dart';
 
 class RootHomeScreen extends StatefulWidget {
@@ -18,8 +19,11 @@ class _RootHomeScreenState extends State<RootHomeScreen> {
           IconButton(
               onPressed: () {}, icon: Icon(Icons.add, color: Color.fromARGB(255, 0, 0, 0))),
           IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.exit_to_app, color: const Color.fromARGB(255, 0, 0, 0)))
+              onPressed: () {
+                // Exit the app when the exit button is pressed
+                SystemNavigator.pop(); // Use SystemNavigator to exit the app
+              },
+              icon: Icon(Icons.exit_to_app, color: const Color.fromARGB(255, 0, 0, 0))),
         ],
         title: Text(
           "Hello Ayush",
@@ -28,7 +32,7 @@ class _RootHomeScreenState extends State<RootHomeScreen> {
       ),
       body: ListView(
         children: List.generate(
-          10,
+          1,
           (index) => IndividualTaskBuilder(
             screenWidth: screenWidth,
             taskDate: '12/12/12',
@@ -69,14 +73,36 @@ class IndividualTaskBuilder extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                  leading: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+                leading: Container(
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.assignment,
+                    color: Colors.black,
+                    size: screenWidth / 17.25,
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            offset: Offset(0, 4),
+                            blurRadius: 4,
+                            color: Colors.black.withOpacity(0.25))
+                      ],
+                      borderRadius:
+                          BorderRadius.circular(screenWidth / 10.35)),
+                  height: screenWidth / 10.35,
+                  width: screenWidth / 10.35,
+                ),
+                trailing: GestureDetector(
+                  onTap: onDeletePressed,
+                  child: Container(
                     alignment: Alignment.center,
                     child: Icon(
-                      Icons.assignment,
+                      Icons.delete,
                       color: Colors.black,
                       size: screenWidth / 17.25,
                     ),
@@ -93,113 +119,92 @@ class IndividualTaskBuilder extends StatelessWidget {
                     height: screenWidth / 10.35,
                     width: screenWidth / 10.35,
                   ),
-                  trailing: GestureDetector(
-                    onTap: onDeletePressed,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.black,
-                        size: screenWidth / 17.25,
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(0, 4),
-                                blurRadius: 4,
-                                color: Colors.black.withOpacity(0.25))
-                          ],
-                          borderRadius:
-                              BorderRadius.circular(screenWidth / 10.35)),
-                      height: screenWidth / 10.35,
-                      width: screenWidth / 10.35,
-                    ),
+                ),
+                title: Text("Task Name",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: screenWidth / 27.6)),
+                subtitle: Text(
+                  "$taskName",
+                  style: TextStyle(fontSize: screenWidth / 31.85),
+                )),
+            ListTile(
+                leading: Container(
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.calendar_today,
+                    color: Colors.black,
+                    size: screenWidth / 17.25,
                   ),
-                  title: Text("Task Name",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenWidth / 27.6)),
-                  subtitle: Text(
-                    "$taskName",
-                    style: TextStyle(fontSize: screenWidth / 31.85),
-                  )),
-              ListTile(
-                  leading: Container(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.calendar_today,
-                      color: Colors.black,
-                      size: screenWidth / 17.25,
-                    ),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              offset: Offset(0, 4),
-                              blurRadius: 4,
-                              color: Colors.black.withOpacity(0.25))
-                        ],
-                        borderRadius:
-                            BorderRadius.circular(screenWidth / 10.35)),
-                    height: screenWidth / 10.35,
-                    width: screenWidth / 10.35,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            offset: Offset(0, 4),
+                            blurRadius: 4,
+                            color: Colors.black.withOpacity(0.25))
+                      ],
+                      borderRadius:
+                          BorderRadius.circular(screenWidth / 10.35)),
+                  height: screenWidth / 10.35,
+                  width: screenWidth / 10.35,
+                ),
+                title: Text("Task Date",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: screenWidth / 27.6)),
+                subtitle: Text(
+                  "$taskDate",
+                  style: TextStyle(fontSize: screenWidth / 31.85),
+                )),
+            ListTile(
+                leading: Container(
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.watch,
+                    color: Colors.black,
+                    size: screenWidth / 17.25,
                   ),
-                  title: Text("Task Date",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenWidth / 27.6)),
-                  subtitle: Text(
-                    "$taskDate",
-                    style: TextStyle(fontSize: screenWidth / 31.85),
-                  )),
-              ListTile(
-                  leading: Container(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.watch,
-                      color: Colors.black,
-                      size: screenWidth / 17.25,
-                    ),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              offset: Offset(0, 4),
-                              blurRadius: 4,
-                              color: Colors.black.withOpacity(0.25))
-                        ],
-                        borderRadius:
-                            BorderRadius.circular(screenWidth / 10.35)),
-                    height: screenWidth / 10.35,
-                    width: screenWidth / 10.35,
-                  ),
-                  title: Text("Task Time",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenWidth / 27.6)),
-                  subtitle: Text(
-                    "$taskTime",
-                    style: TextStyle(fontSize: screenWidth / 31.85),
-                  ))
-            ],
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  offset: Offset(0, 4),
-                  blurRadius: 4,
-                  color: Colors.black.withOpacity(0.25))
-            ],
-            borderRadius: BorderRadius.circular(screenWidth / 41.4),
-          ),
-          width: screenWidth,
-          margin: EdgeInsets.only(
-              left: screenWidth / 20.7,
-              right: screenWidth / 20.7,
-              bottom: screenWidth / 20.7,
-              top: index == 0 ? screenWidth / 20.7 : 0)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            offset: Offset(0, 4),
+                            blurRadius: 4,
+                            color: Colors.black.withOpacity(0.25))
+                      ],
+                      borderRadius:
+                          BorderRadius.circular(screenWidth / 10.35)),
+                  height: screenWidth / 10.35,
+                  width: screenWidth / 10.35,
+                ),
+                title: Text("Task Time",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: screenWidth / 27.6)),
+                subtitle: Text(
+                  "$taskTime",
+                  style: TextStyle(fontSize: screenWidth / 31.85),
+                ))
+          ],
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(0, 4),
+                blurRadius: 4,
+                color: Colors.black.withOpacity(0.25))
+          ],
+          borderRadius: BorderRadius.circular(screenWidth / 41.4),
+        ),
+        width: screenWidth,
+        margin: EdgeInsets.only(
+            left: screenWidth / 20.7,
+            right: screenWidth / 20.7,
+            bottom: screenWidth / 20.7,
+            top: index == 0 ? screenWidth / 20.7 : 0),
+      ),
     );
   }
 }

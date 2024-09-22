@@ -3,20 +3,19 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/constants/constants.dart';
+import 'package:task_manager/firebase_options.dart';
 import 'package:task_manager/screens/home_screen/root_home_screen.dart';
 import 'package:task_manager/screens/home_screen/sub_screens/view_individual_task.dart';
 import 'package:task_manager/screens/splash_screen/splash_screen.dart';
 
-Future main() async {
-   WidgetsFlutterBinding.ensureInitialized();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-   Platform.isAndroid 
-       ? await Firebase.initializeApp(
-           options: FirebaseOptions(apiKey:'AIzaSyA0dyROkHt2bgBPO0Fad9o6AR08WDfQMV0', appId:"1:516182557229:android:74fe6aadf69abdccaf2ea4", messagingSenderId: "516182557229", projectId:"taskmanager-863fb"
-          ))
-      : await Firebase.initializeApp();
+  // Initialize Firebase based on the platform
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,  // This uses the platform-specific options automatically
+  );
 
-   
   runApp(MyApp());
 }
 

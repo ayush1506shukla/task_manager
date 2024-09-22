@@ -20,15 +20,15 @@ class _ViewIndividualTaskState extends State<ViewIndividualTask> {
             },
             icon: Icon(
               Icons.arrow_back,
-              color: Colors.white,
+              color: Color.fromARGB(255, 0, 0, 0),
             )),
         actions: [
           IconButton(
-              onPressed: () {}, icon: Icon(Icons.delete, color: Colors.white)),
+              onPressed: () {}, icon: Icon(Icons.delete, color: const Color.fromARGB(255, 0, 0, 0))),
         ],
         title: Text(
           "Task Details",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 0, 0, 0)),
         ),
       ),
       body: SingleChildScrollView(

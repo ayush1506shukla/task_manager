@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:task_manager/screens/auth_screens/login_screen/login_screen.dart';
-import 'package:task_manager/Screens/home_screen/root_home_screen.dart';
-import 'package:task_manager/Services/database_services/user_services.dart';
+//import 'package:task_manager/screens/home_screen/root_home_screen.dart';
 import 'package:task_manager/services/auth_services/auth_services.dart';
+import 'package:task_manager/services/database_services/user_services.dart';
+import 'package:task_manager/models/user.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -21,32 +18,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController _aadharController = TextEditingController();
-  TextEditingController _numberController =TextEditingController();
 
-  AuthServices _authServices = AuthServices();
-  UserServices _userServices = UserServices();
+  final AuthServices _authServices = AuthServices();
+  final UserServices _userServices = UserServices();
 
-  FocusNode _nameFocusNode = FocusNode();
-  FocusNode _numberFocusNode=FocusNode();
-  FocusNode _aadharFocusNode =FocusNode();
   FocusNode _emailFocusNode = FocusNode();
   FocusNode _passwordFocusNode = FocusNode();
   FocusNode _submitFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
-  final _numberkey=GlobalKey<FormFieldState>();
   final _nameKey = GlobalKey<FormFieldState>();
-  final _aadharkey =GlobalKey<FormFieldState>();
   final _emailKey = GlobalKey<FormFieldState>();
   final _passwordKey = GlobalKey<FormFieldState>();
 
-  Future _register() async {}
+  Future<void> _register() async {
+    if (_formKey.currentState?.validate() == true) {
+      String email = _emailController.text.trim();
+      String password = _passwordController.text.trim();
+      String userName = _nameController.text.trim();
+
+      // Register user with email and password
+      String uid = await _authServices.register(email, password);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>LoginScreen()));
+      if (uid != "None") {
+        // Create AppUser instance
+        AppUser appUser = AppUser(uid: uid, userName: userName, email: email, password: password);
+        
+        // Add user data to Firestore
+        await _userServices.addUserDataToDatabase(appUser);
+
+        // Navigate to login screen after successful registration
+        
+      } else {
+        // Handle registration failure (e.g., show an error message)
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Registration failed. Please try again.")),
+        );
+      }
+    }
+  }
 
   @override
   void dispose() {
-    _nameFocusNode.dispose();
-    _numberFocusNode.dispose();
-    _aadharFocusNode.dispose();
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
     _submitFocusNode.dispose();
@@ -91,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                    height: screenWidth / 90.7
+                    height: screenWidth / 5.6,
                   ),
                   Container(
                     margin:
@@ -100,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       key: _nameKey,
                       controller: _nameController,
                       validator: (value) {
-                        if (value.toString().trim().length == 0) {
+                        if (value.toString().trim().isEmpty) {
                           return "Name is required";
                         } else {
                           return null;
@@ -108,82 +120,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                       onFieldSubmitted: (_) {
                         if (_nameKey.currentState?.validate() == true) {
-                          FocusScope.of(context).requestFocus(_numberFocusNode);
+                          FocusScope.of(context).requestFocus(_emailFocusNode);
                         }
                       },
                       decoration: InputDecoration(
-                          labelText: "Enter Name",
-                          prefixIcon: Icon(Icons.perm_identity)),
+                          labelText: "Enter Name*",
+                          prefixIcon: Icon(Icons.person)),
                     ),
                   ),
-                 SizedBox(height: screenWidth / 30),
-                  Container(
-                    margin:
-                        EdgeInsets.symmetric(horizontal: screenWidth / 12.54),
-                    child: TextFormField(
-                      key: _numberkey,
-                      controller: _numberController,
-                      maxLength:10,
-                      maxLengthEnforcement:MaxLengthEnforcement.truncateAfterCompositionEnds,
-                      validator: (value) {
-                        if (value.toString().trim().length > 0) {
-                          if (value.toString().trim().length == 10) {
-                            return null;
-                          } else {
-                            return "Please Enter Valid Mobile Number";
-                          }
-                        } else {
-                          return "Mobile Number is required";
-                        }
-                      },
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      onFieldSubmitted: (_) {
-                        if (_numberkey.currentState?.validate() == true) {
-                          FocusScope.of(context).requestFocus(_aadharFocusNode);
-                        }
-                      },
-                      
-                      decoration: InputDecoration(
-                          labelText: "Mobile Number",
-                          prefixIcon: Icon(Icons.phone)),
-                    ),
-                  ),
-                    //  SizedBox(height: screenWidth / 30),
-                  // Container(
-                  //   margin:
-                  //       EdgeInsets.symmetric(horizontal: screenWidth / 12.54),
-                  //   child: TextFormField(
-                  //     key: _aadharkey,
-                  //     controller: _aadharController,
-                  //     validator: (value) {
-                  //       if (value.toString().trim().length > 0) {
-                  //         if (value.toString().trim().length == 12) {
-                  //           return null;
-                  //         } else {
-                  //           return "Please Enter Valid Aadhar Number";
-                  //         }
-                  //       } else {
-                  //         return "Aadhar Number is required";
-                  //       }
-                  //     },
-                  //     keyboardType: TextInputType.number,
-                  //     inputFormatters: <TextInputFormatter>[
-                  //       FilteringTextInputFormatter.digitsOnly
-                  //     ],
-                  //     onFieldSubmitted: (_) {
-                  //       if (_aadharkey.currentState?.validate() == true) {
-                  //         FocusScope.of(context).requestFocus(_emailFocusNode);
-                  //       }
-                  //     },
-                  //     decoration: InputDecoration(
-                  //         labelText: "Aadhar Number",
-                  //         prefixIcon: Icon(Icons.person)),
-                  //   ),
-                  // ),
-                    // SizedBox(height: screenWidth / 30),
+                  SizedBox(height: screenWidth / 18),
                   Container(
                     margin:
                         EdgeInsets.symmetric(horizontal: screenWidth / 12.54),
@@ -198,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         }
                       },
                       validator: (value) {
-                        if (value.toString().trim().length > 0) {
+                        if (value.toString().trim().isNotEmpty) {
                           if (!RegExp(
                                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                               .hasMatch(value.toString().trim())) {
@@ -207,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           }
                         } else {
-                          return "Email id is required";
+                          return "Email is required";
                         }
                       },
                       decoration: InputDecoration(
@@ -215,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           prefixIcon: Icon(Icons.mail)),
                     ),
                   ),
-                  SizedBox(height: screenWidth / 30),
+                  SizedBox(height: screenWidth / 18),
                   Container(
                     margin:
                         EdgeInsets.symmetric(horizontal: screenWidth / 12.54),
@@ -230,11 +175,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         }
                       },
                       validator: (value) {
-                        if (value.toString().trim().length > 0) {
+                        if (value.toString().trim().isNotEmpty) {
                           if (value.toString().trim().length >= 6) {
                             return null;
                           } else {
-                            return "Password length must be atleast 6";
+                            return "Password length must be at least 6";
                           }
                         } else {
                           return "Password is required";
@@ -263,13 +208,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
                                         screenWidth / 10.35)))),
-                        onPressed: () {
-                          if (_formKey.currentState?.validate() == true) {
-                            print("Registered successfully");
-                          } else {
-                            print("Enter valid form data");
-                          }
-                        },
+                        onPressed: _register,
                         child: Text(
                           "Register",
                           style: TextStyle(
@@ -292,14 +231,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Already have account? ",
+                          "Already have an account? ",
                           style: TextStyle(fontSize: screenWidth / 31.84),
                         ),
                         Text(
                           " Login",
                           style: TextStyle(
                               fontSize: screenWidth / 31.84,
-                              decoration: TextDecoration.underline),
+                              decoration: TextDecoration.underline,
+                              color:Colors.blue),
                         )
                       ],
                     ),

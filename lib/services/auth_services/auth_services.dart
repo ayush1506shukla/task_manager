@@ -5,8 +5,7 @@ class AuthServices {
 
   Future<String> login(String email, String password) async {
     try {
-      UserCredential userCredential = await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
 
       var user = userCredential.user;
 
@@ -23,8 +22,7 @@ class AuthServices {
 
   Future<String> register(String email, String password) async {
     try {
-      UserCredential userCredential = await _firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
 
       var user = userCredential.user;
 
