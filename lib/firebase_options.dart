@@ -41,49 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAHTZRFqNsS_w7rmH4n2hvWkzLGB47mvO8',
-    appId: '1:1037777161868:web:62f1915163650ffbd875a9',
-    messagingSenderId: '1037777161868',
-    projectId: 'taskmanager-a3d7b',
-    authDomain: 'taskmanager-a3d7b.firebaseapp.com',
-    storageBucket: 'taskmanager-a3d7b.appspot.com',
-    measurementId: 'G-Y28EPYWEPC',
+    apiKey: 'AIzaSyDuHR_lBB0l0ktwsJCMAXv-NnuHijSCak4',
+    appId: '1:470809602430:web:a10b1187b8402b9f97ab2f',
+    messagingSenderId: '470809602430',
+    projectId: 'taskmanager-a3d7b1',
+    authDomain: 'taskmanager-a3d7b1.firebaseapp.com',
+    storageBucket: 'taskmanager-a3d7b1.appspot.com',
+    measurementId: 'G-L4Y0HQP3BS',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDBaNczWQJDIt5NIVRCftvHa-knVTsBZGQ',
-    appId: '1:1037777161868:android:74a0a7e99ba24351d875a9',
-    messagingSenderId: '1037777161868',
-    projectId: 'taskmanager-a3d7b',
-    storageBucket: 'taskmanager-a3d7b.appspot.com',
+    apiKey: 'AIzaSyB1ay1iDEQZGkKqvSdFuFNURbwT_YkMnLE',
+    appId: '1:470809602430:android:cf6280c1621dc0dd97ab2f',
+    messagingSenderId: '470809602430',
+    projectId: 'taskmanager-a3d7b1',
+    storageBucket: 'taskmanager-a3d7b1.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC-IDH4A-3TUIJH0mH5YHYLP39TVUQCV98',
-    appId: '1:1037777161868:ios:81bb75a883a435b9d875a9',
-    messagingSenderId: '1037777161868',
-    projectId: 'taskmanager-a3d7b',
-    storageBucket: 'taskmanager-a3d7b.appspot.com',
+    apiKey: 'AIzaSyDRz8beKmKGHydONTffSCxInheg-MpVJBI',
+    appId: '1:470809602430:ios:f00592ecfe79e7eb97ab2f',
+    messagingSenderId: '470809602430',
+    projectId: 'taskmanager-a3d7b1',
+    storageBucket: 'taskmanager-a3d7b1.appspot.com',
     iosBundleId: 'com.example.taskManager',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyC-IDH4A-3TUIJH0mH5YHYLP39TVUQCV98',
-    appId: '1:1037777161868:ios:81bb75a883a435b9d875a9',
-    messagingSenderId: '1037777161868',
-    projectId: 'taskmanager-a3d7b',
-    storageBucket: 'taskmanager-a3d7b.appspot.com',
+    apiKey: 'AIzaSyDRz8beKmKGHydONTffSCxInheg-MpVJBI',
+    appId: '1:470809602430:ios:f00592ecfe79e7eb97ab2f',
+    messagingSenderId: '470809602430',
+    projectId: 'taskmanager-a3d7b1',
+    storageBucket: 'taskmanager-a3d7b1.appspot.com',
     iosBundleId: 'com.example.taskManager',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyAHTZRFqNsS_w7rmH4n2hvWkzLGB47mvO8',
-    appId: '1:1037777161868:web:81cfeef90953afa0d875a9',
-    messagingSenderId: '1037777161868',
-    projectId: 'taskmanager-a3d7b',
-    authDomain: 'taskmanager-a3d7b.firebaseapp.com',
-    storageBucket: 'taskmanager-a3d7b.appspot.com',
-    measurementId: 'G-3BDEYVG1MF',
+    apiKey: 'AIzaSyDuHR_lBB0l0ktwsJCMAXv-NnuHijSCak4',
+    appId: '1:470809602430:web:e66544e069904ee597ab2f',
+    messagingSenderId: '470809602430',
+    projectId: 'taskmanager-a3d7b1',
+    authDomain: 'taskmanager-a3d7b1.firebaseapp.com',
+    storageBucket: 'taskmanager-a3d7b1.appspot.com',
+    measurementId: 'G-NEY9NGCJYY',
   );
 
 }
